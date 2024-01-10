@@ -16,6 +16,8 @@ export default function Home() {
   const [error, setError] = useState('');
   const [message, setMessage] = useState([]);
   const [send, setSend] = useState([])
+  const [name, setName] = useState('')
+  const [putname, setPutName] = useState('')
 
   const inputMessage = (event) => { 
     setMessage(event.target.value) 
@@ -25,6 +27,17 @@ export default function Home() {
     setMessage([])
     // send: ['hello','h2'] => 'hello','h2' => ['hello','h2',message]    
   }
+
+  const nameing = (e) =>{
+    setName(e.target.value)
+  }
+  const inputName =() => {
+    setPutName(name)
+    setName('')
+  }
+
+
+  
 
    const handleLogin = () => {
     setError('');
@@ -117,8 +130,8 @@ const saveIntoFirestore = async(content) =>  {
           
         </button>
         <p>ENFP</p>
-        </div>
 
+        </div>
         <Image    src="/male.svg" 
                   alt='male'
                   width={70}
@@ -129,11 +142,10 @@ const saveIntoFirestore = async(content) =>  {
                   width={70}
                   height={70}
                   style={{}}></Image>
-
-       
-
-
         </div>
+
+        Name<input value={name} onChange={nameing}></input>
+        <button onClick={inputName}>comfirm</button>
 
         
         
@@ -159,37 +171,42 @@ const saveIntoFirestore = async(content) =>  {
                 }}> 
 
                 <div style={{ flex:'reverse', overflowY: 'auto', margin:'2px'}}>
-                         {send.map((mes,i)=>{
-                            return (<div className={'bg-green-500 m-2'} key={i}>{mes}</div>)
-                         })}
-                   {/* {send} */}
-                            
+                         {send.map((mes,i)=>
+                             (<div className={'bg-green-500 m-2'} key={`send-${i}`}>{mes}</div>
+                             ))},
+                         {putname.map((name, i) => (
+                             <div key={`name-${i}`}>{name}</div>
+                             ))}                           
                 </div>
                 
-                <div style={{ position: 'relative', width:'100%',height:'30px' }}>
+                <div style={{display:'flex', alignItems:'center', width:'100%',height:'30px' }}>
+
+                  {putname}
+
                   <input value={message} onChange={inputMessage} style={{
-                  position: 'absolute',                  
-                  button:'20px',
+                
                   width:'calc(100% - 30px)',
                   height:'20px',                  
                   border:'1px solid #ccc',
-                  borderRadius:'5px'
-                }}>
+                  borderRadius:'5px',
+                  padding:'3px',
+                  margin:'5px'
+                }}>                  
                 </input>
+
+                <div>
                 <Image onClick={sendButton}
                   src="/send-alt-svgrepo-com.svg" 
                   alt='send'
                   width={0}
                   height={0}                  
                   style={{
-                    position: 'absolute',
-                    right: '1px',
-                    bottom: '8px',
                     width: '20px', // 适当设置图标大小
                     height: '20px',
                     cursor: 'pointer' // 更改鼠标样式为手指形状
                   }}
                   ></Image>
+                  </div>
                   </div>
              </div>                  
       )}
