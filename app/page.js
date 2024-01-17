@@ -22,11 +22,19 @@ export default function Home() {
   const inputMessage = (event) => { 
     setMessage(event.target.value) 
     } 
+  // const sendButton = () => {
+  //   setSend([...send,message],[...putname,name])
+  //   setMessage([])
+  //   // send: ['hello','h2'] => 'hello','h2' => ['hello','h2',message]    
+  // }
+
   const sendButton = () => {
-    setSend([...send,message])
-    setMessage([])
-    // send: ['hello','h2'] => 'hello','h2' => ['hello','h2',message]    
-  }
+    if (message.trim() !== '') { // 確保輸入的信息不是空白
+      const fullMessage = `${putname}: ${message}`; // 合併 putname 和 message
+      setSend([...send, fullMessage]); // 將合併後的消息添加到 send 陣列中
+      setMessage(''); // 清空輸入框
+    }
+  };
 
   const nameing = (e) =>{
     setName(e.target.value)
@@ -99,6 +107,8 @@ const saveIntoFirestore = async(content) =>  {
 
         <h1>16 Personality Debate World</h1>
 
+        
+
         <div style={{
           display:'flex',  
           alignItems:'center',
@@ -142,11 +152,13 @@ const saveIntoFirestore = async(content) =>  {
                   width={70}
                   height={70}
                   style={{}}></Image>
+        
         </div>
 
-        Name<input value={name} onChange={nameing}></input>
+        <h3>MBTI</h3><input value={name} onChange={nameing}></input>
         <button onClick={inputName}>comfirm</button>
 
+       
         
         
         
@@ -171,17 +183,23 @@ const saveIntoFirestore = async(content) =>  {
                 }}> 
 
                 <div style={{ flex:'reverse', overflowY: 'auto', margin:'2px'}}>
-                         {send.map((mes,i)=>
-                             (<div className={'bg-green-500 m-2'} key={`send-${i}`}>{mes}</div>
-                             ))},
-                         {putname.map((name, i) => (
-                             <div key={`name-${i}`}>{name}</div>
-                             ))}                           
+                      {/* <div>{putname}</div> */}
+                         {/* {send.map((mes,i)=>
+                             (<div className={'bg-green-500 m-2'} key={i}>{mes}</div>
+                             ))} */}
+                      {send.map((mes, i) => (
+                          <div className={'bg-skyblue-500 m-2'} key={i}>{mes}</div>
+                        ))}
+                                      
                 </div>
                 
                 <div style={{display:'flex', alignItems:'center', width:'100%',height:'30px' }}>
 
-                  {putname}
+                  <div style={{
+                    backgroundColor: 'skyblue',
+                    borderRadius:'5px',
+                    padding:'3px 5px 3px 5px '
+                }}>{putname}</div>
 
                   <input value={message} onChange={inputMessage} style={{
                 
